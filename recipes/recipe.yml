@@ -1,45 +1,34 @@
----
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
-description: This is my personal OS image.
-
-# the base image to build on top of (FROM) and the version tag to use
+name: silverblue-audio-studio
+description: Mein unzerstörbares Audio- und Entwickler-System
 base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+image-version: 44
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
+  # 1. System-Pakete installieren (Host)
+  - type: rpm-ostree
+    install:
+      - waydroid       # Für deine Android-Apps
+      - distrobox      # Für deine Container (Arch-Audio & System-Tools)
+
+  # 2. Hardware- und System-Rechte verankern
   - type: files
     files:
-      - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+      # Android USB-Erkennung (udev)
+      - source: https://githubusercontent.com
+        destination: /etc/udev/rules.d/51-android.rules
+      
+      # Realtime-Audio-Rechte für deinen Benutzer
+      - inline: |
+          @audio   -   rtprio   95
+          @audio   -   memlock  unlimited
+        destination: /etc/security/limits.d/99-audio.conf
 
-  - type: dnf
-    repos:
-      copr:
-        - atim/starship
+  # 3. Flatpaks (Automatische Installation im User-Space)
+  - type: flatpaks
     install:
-      packages:
-        - micro
-        - starship
-    remove:
-      packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
-
-  - type: default-flatpaks
-    configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
-        scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
-          - org.gnome.Loupe
-      - scope: user # Also add Flathub user repo, but no user packages
-
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+      - org.gnome.Evolution         # Mail & Kalender mit perfekter GNOME-Integration
+      - org.mozilla.Thunderbird     # Der klassische, mächtige Mail-Client
+      - desktop.onlyoffice.ONLYOFFICE # Das Office mit bester Microsoft-Kompatibilität
+      - com.github.jeromerobert.pdfarranger # Zum schnellen Zusammenfügen/Trennen von PDFs
+      - org.mozilla.firefox         # Dein Browser
+      - org.audacityteam.Audacity   # Für schnelle Audio-Schnitte am Host

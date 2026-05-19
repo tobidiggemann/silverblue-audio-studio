@@ -1,22 +1,22 @@
+# yaml-language-server: $schema=https://blue-build.org
 name: silverblue-audio-studio
 description: Mein unzerstörbares Audio- und Entwickler-System
 base-image: ghcr.io/ublue-os/silverblue-main
 image-version: 44
 
 modules:
-  # 1. System Packages (Host via rpm-ostree)
   - type: rpm-ostree
     install:
       - waydroid
       - distrobox
 
-  # 2. Flatpaks (CORRECT SCHEMA: Using the default-flatpaks module)
   - type: default-flatpaks
-    notify: true # Shows a notification to the user when finished
-    install:
-      - org.gnome.Evolution
-      - org.mozilla.Thunderbird
-      - desktop.onlyoffice.ONLYOFFICE
-      - com.github.jeromerobert.pdfarranger
-      - org.mozilla.firefox
-      - org.audacityteam.Audacity
+    configurations:
+      - remote: flathub
+        install:
+          - org.gnome.Evolution
+          - org.mozilla.Thunderbird
+          - desktop.onlyoffice.ONLYOFFICE
+          - com.github.jeromerobert.pdfarranger
+          - org.mozilla.firefox
+          - org.audacityteam.Audacity

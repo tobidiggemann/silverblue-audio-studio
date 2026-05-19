@@ -4,31 +4,18 @@ base-image: ghcr.io/ublue-os/silverblue-main
 image-version: 44
 
 modules:
-  # 1. System-Pakete installieren (Host)
+  # 1. System-Pakete (Host)
   - type: rpm-ostree
     install:
-      - waydroid       # Für deine Android-Apps
-      - distrobox      # Für deine Container (Arch-Audio & System-Tools)
+      - waydroid
+      - distrobox
 
-  # 2. Hardware- und System-Rechte verankern
-  - type: files
-    files:
-      # Android USB-Erkennung (udev)
-      - source: https://githubusercontent.com
-        destination: /etc/udev/rules.d/51-android.rules
-      
-      # Realtime-Audio-Rechte für deinen Benutzer
-      - inline: |
-          @audio   -   rtprio   95
-          @audio   -   memlock  unlimited
-        destination: /etc/security/limits.d/99-audio.conf
-
-  # 3. Flatpaks (Automatische Installation im User-Space)
+  # 2. Flatpaks (Automatische Installation)
   - type: flatpaks
     install:
-      - org.gnome.Evolution         # Mail & Kalender mit perfekter GNOME-Integration
-      - org.mozilla.Thunderbird     # Der klassische, mächtige Mail-Client
-      - desktop.onlyoffice.ONLYOFFICE # Das Office mit bester Microsoft-Kompatibilität
-      - com.github.jeromerobert.pdfarranger # Zum schnellen Zusammenfügen/Trennen von PDFs
-      - org.mozilla.firefox         # Dein Browser
-      - org.audacityteam.Audacity   # Für schnelle Audio-Schnitte am Host
+      - org.gnome.Evolution
+      - org.mozilla.Thunderbird
+      - desktop.onlyoffice.ONLYOFFICE
+      - com.github.jeromerobert.pdfarranger
+      - org.mozilla.firefox
+      - org.audacityteam.Audacity

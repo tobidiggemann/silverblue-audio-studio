@@ -34,7 +34,6 @@ jobs:
         uses: blue-build/github-action@v1.11
         with:
           recipe: ${{ matrix.recipe }}
-          no_sign: true
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
 

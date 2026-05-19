@@ -11,7 +11,7 @@ modules:
       - distrobox
 
   # 2. Flatpaks (Automatische Installation)
-  - type: flatpaks
+  - type: flatpak
     install:
       - org.gnome.Evolution
       - org.mozilla.Thunderbird

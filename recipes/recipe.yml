@@ -4,14 +4,15 @@ base-image: ghcr.io/ublue-os/silverblue-main
 image-version: 44
 
 modules:
-  # 1. System-Pakete (Host)
+  # 1. System Packages (Host via rpm-ostree)
   - type: rpm-ostree
     install:
       - waydroid
       - distrobox
 
-  # 2. Flatpaks (Automatische Installation)
-  - type: flatpak
+  # 2. Flatpaks (CORRECT SCHEMA: Using the default-flatpaks module)
+  - type: default-flatpaks
+    notify: true # Shows a notification to the user when finished
     install:
       - org.gnome.Evolution
       - org.mozilla.Thunderbird

@@ -5,6 +5,7 @@ base-image: ghcr.io/ublue-os/silverblue-main
 image-version: 44
 
 modules:
+  # Deine bestehenden Module (rpm-ostree und Flatpaks)
   - type: rpm-ostree
     install:
       - waydroid
@@ -20,3 +21,18 @@ modules:
           - com.github.jeromerobert.pdfarranger
           - org.mozilla.firefox
           - org.audacityteam.Audacity
+
+  # NEU: Signatur-Modul (hier gehört der Schlüssel hin!)
+  - type: signing
+    cosign_private_key: |
+-----BEGIN ENCRYPTED SIGSTORE PRIVATE KEY-----
+eyJrZGYiOnsibmFtZSI6InNjcnlwdCIsInBhcmFtcyI6eyJOIjo2NTUzNiwiciI6
+OCwicCI6MX0sInNhbHQiOiJoUXg3d0lnQ1VUdGlRdVd6QWgvMlM3eHJ0Z1VNK2Z0
+VFQ2M3FqZzZUeGRNPSJ9LCJjaXBoZXIiOnsibmFtZSI6Im5hY2wvc2VjcmV0Ym94
+Iiwibm9uY2UiOiIxbFhsMXZjaGQyZ003SHRpS1NIOVR1NnRNOXlUdFFLWCJ9LCJj
+aXBoZXJ0ZXh0IjoibFVWd29yaVcwTFMxWnY5NE5VYVhwMGQxMWFVQThMUkNjd1ll
+dFB6K1FSRkFaS1RjWXBGb2diN1k4NVJXcVdXL2xvR1lVbi9KU0hXakxyeitvZlhx
+ZVpJWld4RTg4UlpPR3hNbWJNUWJyNjB1RGJOa2xSalF6bTV3dEFPQ2QwUkNWaWNp
+MVhBM3NaMUVEYzJhZ0xLU2dPenB5YTBiWHRrSHEyZEIwZlN1Q3JadDduR3UrT25x
+eEZNZk5vV0RmYURYMXdUZDZyeHp5SUR0TGc9PSJ9
+-----END ENCRYPTED SIGSTORE PRIVATE KEY-----

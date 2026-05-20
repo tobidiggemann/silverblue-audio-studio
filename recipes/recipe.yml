@@ -24,8 +24,5 @@ modules:
 
 # NEU: Signatur-Modul (mit Pfadverweis)
   - type: signing
+<<<<<<< HEAD
     cosign_private_key_path: /home/tobi/Documents/Git/silverblue-audio-studio/cosign.key
-
-
-
-
